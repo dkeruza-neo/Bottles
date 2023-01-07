@@ -501,10 +501,16 @@ class DependencyManager:
 
             os.makedirs(archive_path)
             try:
-                patoolib.extract_archive(
-                    os.path.join(Paths.temp, file),
-                    outdir=archive_path
-                )
+                ext_path = patoolib.extract_archive(os.path.join(Paths.temp, file), outdir=archive_path)
+                ext_file = ext_path + '/' + os.path.basename(ext_path)
+                if os.path.exists(archive_path):
+                    if os.path.isfile(ext_file):
+                        patoolib.extract_archive(
+                        ext_file,
+                        outdir=ext_path + '/'
+                        )
+                        print("Ext_File", ext_file)
+                        os.remove(ext_file)
             except:
                 return False
             return True
